@@ -12,3 +12,17 @@ BADDIEMINSPEED = 1
 BADDIEMAXSPEED = 8
 ADDNEWBADDIERATE = 6
 PLAYERMOVERATE = 5
+
+def terminate():
+    pygame.quit()
+    sys.exit()
+
+def waitforplayertopresskey():
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                terminate()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCACE: #Нажатие ESC - происходит выход.
+                    terminate()
+                return
