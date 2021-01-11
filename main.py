@@ -26,3 +26,9 @@ def waitforplayertopresskey():
                 if event.key == K_ESCACE: #Нажатие ESC - происходит выход.
                     terminate()
                 return
+
+def playerhashitbaddie(player_rect, baddies):
+    for i in baddies:
+        if player_rect.colliderect(b['rect']):
+            return True
+    return False
