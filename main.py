@@ -32,3 +32,16 @@ def playerhashitbaddie(player_rect, baddies):
         if player_rect.colliderect(b['rect']):
             return True
     return False
+
+def draw_text(text, font, surface, x, y):
+    textobj = font.render(text, 1, TEXTCOLOR)
+    textrect = textobj.get_rect()
+    textrect.topleft = (x, y)
+    surface.blit(textobj, textrect)
+
+# Инициализация pygame и настройка окна
+pygame.init()
+mainClock = pygame.time.Clock()
+windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
+pygame.display.set_caption('Ловкач')
+pygame.mouse.set_visible(False)
