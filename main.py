@@ -57,3 +57,10 @@ pygame.mixer.music.load('background.mid')
 playerImage = pygame.image.load('player.png')
 playerRect = playerImage.get_rect()
 baddieImage = pygame.image.load('baddie.png')
+
+# Вывод начального экрана
+windowSurface.fill(BACKGROUNDCOLOR)
+draw_text('Ловкач', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
+draw_text('Нажмите любую клавишу для начала игры', font, windowSurface, (WINDOWWIDTH / 5) - 30, (WINDOWHEIGHT / 3) + 50)
+pygame.display.update()
+waitforplayertopresskey()
