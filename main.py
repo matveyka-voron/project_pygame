@@ -45,3 +45,15 @@ mainClock = pygame.time.Clock()
 windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 pygame.display.set_caption('Ловкач')
 pygame.mouse.set_visible(False)
+
+# Настройка шрифтов
+font = pygame.font.SysFont(None, 35)
+
+# Настройка звуков
+gameOverSound = pygame.mixer.Sound('gameover.wav')
+pygame.mixer.music.load('background.mid')
+
+# Настройка изображений
+playerImage = pygame.image.load('player.png')
+playerRect = playerImage.get_rect()
+baddieImage = pygame.image.load('baddie.png')
