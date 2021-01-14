@@ -64,3 +64,15 @@ draw_text('Ловкач', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT 
 draw_text('Нажмите любую клавишу для начала игры', font, windowSurface, (WINDOWWIDTH / 5) - 30, (WINDOWHEIGHT / 3) + 50)
 pygame.display.update()
 waitforplayertopresskey()
+
+topScore = 0
+while True:
+    #Настройка начала игры
+    baddies = []
+    score = 0
+    playerRect.topleft = (WINDOWWIDTH / 2, WINDOWHEIGHT - 50)
+    moveLeft = moveRight = moveUp = moveDown = False
+    reverseCheat = slowCheat = False
+    baddieAddCounter = 0
+    pygame.mixer.music.play(-1, 0.0)
+
