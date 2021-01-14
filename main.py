@@ -76,3 +76,37 @@ while True:
     baddieAddCounter = 0
     pygame.mixer.music.play(-1, 0.0)
 
+    while True: # Игровой цикл будет выполнятся, пока происходит процесс игры
+        score += 1 # Прибавление количества очков
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                terminate()
+
+            if event.type == KEYDOWN:
+                if event == K_z:
+                    reverseCheat = True
+                if event.key == K_x:
+                    slowCheat = True
+                if event.key == K_LEFT or event.key == K_a:
+                    moveRight = False
+                    moveLeft = True
+                if event.key == K_RIGHT or event.key == K_d:
+                    moveLeft = False
+                    moveRight = True
+                if event.key == K_UP or event.key == K_w:
+                    moveDown = False
+                    moveUp = True
+                if event.key == K_DOWN or event.key == K_s:
+                    moveUp = False
+                    moveDown = True
+
+            if event.type == KEYUP:
+                if event.key == K_z:
+                    reverseCheat = False
+                    score = 0
+                if event.key == K_x:
+                    slowCheat = False
+                    score = 0
+                if event.key == K_ESCAPE:
+                    terminate()
