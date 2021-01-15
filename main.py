@@ -29,7 +29,7 @@ def waitforplayertopresskey():
 
 def playerhashitbaddie(player_rect, baddies, b=None):
     for i in baddies:
-        if player_rect.colliderect(b['rect']):
+        if player_rect.colliderect(i['rect']):
             return True
     return False
 
@@ -136,3 +136,27 @@ while True:
                  }
 
             baddies.append(newBaddie)
+
+    # Перемещение игрока по дисплею
+    if moveLeft and playerRect.left > 0:
+        playerRect.move_ip(-1 * PLAYERMOVERATE, 0)
+    if moveRight and playerRect.right < WINDOWWIDTH:
+        playerRect.move_ip(PLAYERMOVERATE, 0)
+    if moveUp and playerRect.top > 0:
+        playerRect.move_ip(0, -1 * PLAYERMOVERATE)
+    if moveDown and playerRect.bottom < WINDOWHEIGHT:
+        playerRect.move_ip(0, PLAYERMOVERATE)
+
+    # Спуск злодеев вниз
+    for i in baddies:
+        if not reverseCheat and not slowCheat:
+            i['rect'].move_ip(0, i['speed'])
+        elif reverseCheat:
+            i['rect'].move_ip(0, -5)
+        elif slowCheat:
+            i['rect'].move_ip(0, 1)
+
+    # Уничтожение злоеев, проникших ниже границы дисплея
+    for i in baddies[:]:
+        if i['rect'].top > WINDOWHEIGHT:
+            baddies.remove(i)
