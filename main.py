@@ -27,7 +27,7 @@ def waitforplayertopresskey():
                     terminate()
                 return
 
-def playerhashitbaddie(player_rect, baddies):
+def playerhashitbaddie(player_rect, baddies, b=None):
     for i in baddies:
         if player_rect.colliderect(b['rect']):
             return True
@@ -124,3 +124,15 @@ while True:
                 # Перемещение игрока на курсор мыши [в движении курсора]
                 playerRect.centerx = event.pos[0]
                 playerRect.centery = event.pos[1]
+        # Если необходим, то добавить новых злодеев в верхнюю часть экрана
+        if not reverseCheat and not slowCheat:
+            baddieAddCounter += 1
+        if baddieAddCounter == ADDNEWBADDIERATE:
+            baddieAddCounter = 0
+            baddieSize = random.randint(BADDIEMINSIZE, BADDIEMAXSIZE)
+    newBaddie = {'rect' : pygame.Rect(random.randint(0, WINDOWWIDTH - baddieSize), 0 - baddieSize, baddieSize, baddieSize),
+                 'speed' : random.randint(BADDIEMINSPEED, BADDIEMAXSPEED),
+                 'surface' : pygame.transform.scale(baddieImage, (baddieSize, baddieSize)),
+                 }
+
+            baddies.append(newBaddie)
