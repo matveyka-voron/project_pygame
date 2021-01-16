@@ -176,3 +176,22 @@ while True:
         windowSurface.blit(i['surface'], i['rect'])
 
     pygame.display.update()
+
+    # Проверка на попадание в игрока каким-либо злодеем
+    if playerHasHitBaddie(playerRect, baddies):
+        if score > topScore:
+            topScore = score # вывод нового рекорда на дисплей
+        break
+
+    mainClock.tick(FPS)
+
+    # Экран GAME OVER
+    pygame.mixer.music.stop()
+    gameOverSound.play()
+
+    drawText('ИГРА ОКОНЧЕНА!', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
+    drawText('Нажмите любую клавишу для начала новой игры', font, windowSurface, (WINDOWWIDTH / 3) - 120, (WINDOWHEIGHT / 3) + 50)
+    pygame.display.update()
+    waitforplayertopresskey()
+
+    gameOverSound.stop()
