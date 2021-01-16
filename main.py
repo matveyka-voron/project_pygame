@@ -13,41 +13,46 @@ BADDIEMAXSPEED = 8
 ADDNEWBADDIERATE = 6
 PLAYERMOVERATE = 5
 
+
 def terminate():
     pygame.quit()
     sys.exit()
 
-def waitforplayertopresskey():
+
+def waitForPlayerToPressKey():
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
                 terminate()
             if event.type == KEYDOWN:
-                if event.key == K_ESCACE: #Нажатие ESC - происходит выход.
+                if event.key == K_ESCAPE:  # Нажатие ESC осуществляет выход.
                     terminate()
                 return
 
-def playerhashitbaddie(player_rect, baddies, b=None):
-    for i in baddies:
-        if player_rect.colliderect(i['rect']):
+
+def playerHasHitBaddie(playerRect, baddies):
+    for b in baddies:
+        if playerRect.colliderect(b['rect']):
             return True
     return False
 
-def draw_text(text, font, surface, x, y):
+
+def drawText(text, font, surface, x, y):
     textobj = font.render(text, 1, TEXTCOLOR)
     textrect = textobj.get_rect()
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
-# Инициализация pygame и настройка окна
+
+# Настройка модуля и конфиг (init) окна
 pygame.init()
 mainClock = pygame.time.Clock()
 windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
-pygame.display.set_caption('Ловкач')
+pygame.display.set_caption('Ловкач - Матвей Воронцов')
 pygame.mouse.set_visible(False)
 
 # Настройка шрифтов
-font = pygame.font.SysFont(None, 35)
+font = pygame.font.SysFont(None, 32)
 
 # Настройка звуков
 gameOverSound = pygame.mixer.Sound('gameover.wav')
@@ -58,16 +63,16 @@ playerImage = pygame.image.load('player.png')
 playerRect = playerImage.get_rect()
 baddieImage = pygame.image.load('baddie.png')
 
-# Вывод начального экрана
+# Вывод начального дисплея
 windowSurface.fill(BACKGROUNDCOLOR)
-draw_text('Ловкач', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
-draw_text('Нажмите любую клавишу для начала игры', font, windowSurface, (WINDOWWIDTH / 5) - 30, (WINDOWHEIGHT / 3) + 50)
+drawText('Ловкач', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
+drawText('Нажмите любую клавишу для начала игры', font, windowSurface, (WINDOWWIDTH / 5) - 60, (WINDOWHEIGHT / 3) + 50)
 pygame.display.update()
-waitforplayertopresskey()
+waitForPlayerToPressKey()
 
 topScore = 0
 while True:
-    #Настройка начала игры
+    # Настройка начала игры
     baddies = []
     score = 0
     playerRect.topleft = (WINDOWWIDTH / 2, WINDOWHEIGHT - 50)
@@ -76,15 +81,15 @@ while True:
     baddieAddCounter = 0
     pygame.mixer.music.play(-1, 0.0)
 
-    while True: # Игровой цикл будет выполнятся, пока происходит процесс игры
-        score += 1 # Прибавление количества очков
+    while True:  # Игровой цикл выполняется, пока игра функционирует
+        score += 1  # Добавление кол-ва очков
 
         for event in pygame.event.get():
             if event.type == QUIT:
                 terminate()
 
             if event.type == KEYDOWN:
-                if event == K_z:
+                if event.key == K_z:
                     reverseCheat = True
                 if event.key == K_x:
                     slowCheat = True
@@ -121,77 +126,79 @@ while True:
                     moveDown = False
 
             if event.type == MOUSEMOTION:
-                # Перемещение игрока на курсор мыши [в движении курсора]
+                # При движенеии курсора мыши идёт перемещение игрока к курсору
                 playerRect.centerx = event.pos[0]
                 playerRect.centery = event.pos[1]
-        # Если необходим, то добавить новых злодеев в верхнюю часть экрана
+        # Создание новых злодеев в верхней части дисплея
         if not reverseCheat and not slowCheat:
             baddieAddCounter += 1
         if baddieAddCounter == ADDNEWBADDIERATE:
             baddieAddCounter = 0
             baddieSize = random.randint(BADDIEMINSIZE, BADDIEMAXSIZE)
-    newBaddie = {'rect' : pygame.Rect(random.randint(0, WINDOWWIDTH - baddieSize), 0 - baddieSize, baddieSize, baddieSize),
-                 'speed' : random.randint(BADDIEMINSPEED, BADDIEMAXSPEED),
-                 'surface' : pygame.transform.scale(baddieImage, (baddieSize, baddieSize)),
-                 }
+            newBaddie = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - baddieSize), 0 - baddieSize, baddieSize,
+                                             baddieSize),
+                         'speed': random.randint(BADDIEMINSPEED, BADDIEMAXSPEED),
+                         'surface': pygame.transform.scale(baddieImage, (baddieSize, baddieSize)),
+                         }
 
             baddies.append(newBaddie)
 
-    # Перемещение игрока по дисплею
-    if moveLeft and playerRect.left > 0:
-        playerRect.move_ip(-1 * PLAYERMOVERATE, 0)
-    if moveRight and playerRect.right < WINDOWWIDTH:
-        playerRect.move_ip(PLAYERMOVERATE, 0)
-    if moveUp and playerRect.top > 0:
-        playerRect.move_ip(0, -1 * PLAYERMOVERATE)
-    if moveDown and playerRect.bottom < WINDOWHEIGHT:
-        playerRect.move_ip(0, PLAYERMOVERATE)
+        # Перемещение игрока по дисплею
+        if moveLeft and playerRect.left > 0:
+            playerRect.move_ip(-1 * PLAYERMOVERATE, 0)
+        if moveRight and playerRect.right < WINDOWWIDTH:
+            playerRect.move_ip(PLAYERMOVERATE, 0)
+        if moveUp and playerRect.top > 0:
+            playerRect.move_ip(0, -1 * PLAYERMOVERATE)
+        if moveDown and playerRect.bottom < WINDOWHEIGHT:
+            playerRect.move_ip(0, PLAYERMOVERATE)
 
-    # Спуск злодеев вниз
-    for i in baddies:
-        if not reverseCheat and not slowCheat:
-            i['rect'].move_ip(0, i['speed'])
-        elif reverseCheat:
-            i['rect'].move_ip(0, -5)
-        elif slowCheat:
-            i['rect'].move_ip(0, 1)
+        # Перемещение злодеев вниз
+        for b in baddies:
+            if not reverseCheat and not slowCheat:
+                b['rect'].move_ip(0, b['speed'])
+            elif reverseCheat:
+                b['rect'].move_ip(0, -5)
+            elif slowCheat:
+                b['rect'].move_ip(0, 1)
 
-    # Уничтожение злоеев, проникших ниже границы дисплея
-    for i in baddies[:]:
-        if i['rect'].top > WINDOWHEIGHT:
-            baddies.remove(i)
+        # Уничтожение злодеев, упавших за нижнюю границу дисплея
+        for b in baddies[:]:
+            if b['rect'].top > WINDOWHEIGHT:
+                baddies.remove(b)
 
-    # Отображение игрового мира в окне
-    windowSurface.fill(BACKGROUNDCOLOR)
+        # Отображение в окне игрового мира
+        windowSurface.fill(BACKGROUNDCOLOR)
 
-    # Вывод на дисплей количества очков и лучшего результата за сеанс
-    drawText('Счёт: %s' % (score), font, windowSurface, 10, 0)
-    drawText('Рекорд: %s' (topScore), font, 10, 40)
+        # Отображение количества очков и рекорда по очкам
+        drawText('Счет: %s' % (score), font, windowSurface, 10, 0)
+        drawText('Рекорд: %s' % (topScore), font, windowSurface, 10, 40)
 
-    # Отображение игрока на дисплее
-    windowSurface.blit(playerImage, playerRect)
+        # Отображение игрока
+        windowSurface.blit(playerImage, playerRect)
 
-    # Отображение каждого злодея
-    for i in baddies:
-        windowSurface.blit(i['surface'], i['rect'])
+        # Отображение каждого злодея
+        for b in baddies:
+            windowSurface.blit(b['surface'], b['rect'])
 
-    pygame.display.update()
+        pygame.display.update()
 
-    # Проверка на попадание в игрока каким-либо злодеем
-    if playerHasHitBaddie(playerRect, baddies):
-        if score > topScore:
-            topScore = score # вывод нового рекорда на дисплей
-        break
+        # Проверка, попал ли в игрока какой-либо из злодеев
+        if playerHasHitBaddie(playerRect, baddies):
+            if score > topScore:
+                topScore = score  # установка нового рекорда
+            break
 
-    mainClock.tick(FPS)
+        mainClock.tick(FPS)
 
     # Экран GAME OVER
     pygame.mixer.music.stop()
     gameOverSound.play()
 
     drawText('ИГРА ОКОНЧЕНА!', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
-    drawText('Нажмите любую клавишу для начала новой игры', font, windowSurface, (WINDOWWIDTH / 3) - 120, (WINDOWHEIGHT / 3) + 50)
+    drawText('Нажмите любую клавишу для начала новой игры', font, windowSurface, (WINDOWWIDTH / 3) - 180,
+             (WINDOWHEIGHT / 3) + 50)
     pygame.display.update()
-    waitforplayertopresskey()
+    waitForPlayerToPressKey()
 
     gameOverSound.stop()
