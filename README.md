@@ -1,10 +1,10 @@
-# Dodger V1.0-BETA
+# Dodger V1.0-BETA [EN]
 Developer - Matvey Vorontsov
 
 # Description of the game:
 In the game you have to escape from being hit by villains, thereby gaining the maximum number of points. Villains will fall at different speeds and sizes. The game has a function of cheat codes, to activate the cheat for flying in the other direction - hold down the Z key, and to activate the slow mode - the X key
 
-# Ловкач V1.0-BETA
+# Ловкач V1.0-BETA [RU]
 Разработчик - Матвей Воронцов
 
 # Описание игры:
