@@ -160,3 +160,19 @@ while True:
     for i in baddies[:]:
         if i['rect'].top > WINDOWHEIGHT:
             baddies.remove(i)
+
+    # Отображение игрового мира в окне
+    windowSurface.fill(BACKGROUNDCOLOR)
+
+    # Вывод на дисплей количества очков и лучшего результата за сеанс
+    drawText('Счёт: %s' % (score), font, windowSurface, 10, 0)
+    drawText('Рекорд: %s' (topScore), font, 10, 40)
+
+    # Отображение игрока на дисплее
+    windowSurface.blit(playerImage, playerRect)
+
+    # Отображение каждого злодея
+    for i in baddies:
+        windowSurface.blit(i['surface'], i['rect'])
+
+    pygame.display.update()
